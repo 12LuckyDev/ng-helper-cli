@@ -8,6 +8,7 @@ import {
   eslintTasks,
 } from "./utils";
 import { HelperActionOptions } from "./models";
+import { structureTasks } from "./utils/tasks/structure-tasks";
 
 const program: Command = new Command();
 configurateCommand(program);
@@ -16,6 +17,16 @@ program
   .argument("[path]", "(Optional) Path angular project root", null)
   .option("--np --no-prettier", "Cli will not add pretier to the project")
   .option("--ne --no-eslint", "Cli will not add eslint to the project")
+  .option("--ns --no-structure", "Cli will not add core directories structure")
+  .option(
+    "--sd --structure-dirs <string...>",
+    "Additional directories to add in core directory",
+    [],
+  )
+  .option(
+    "--ni --no-indexify",
+    "Cli will not add indexify dependency and scripts",
+  )
   .option(
     "--legacy-peer-deps",
     "All npm installation will be done with --legacy-peer-deps flag",
@@ -33,8 +44,9 @@ program
       await eslintTasks(workingDir, options);
     }
 
-    // TODO structure tasks ?
-    // TODO indexify tasks
+    if (options.structure) {
+      await structureTasks(workingDir, options);
+    }
   });
 
 program.parse(process.argv);
