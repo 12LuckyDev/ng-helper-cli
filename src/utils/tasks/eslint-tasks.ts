@@ -9,9 +9,14 @@ import {
 
 export const eslintTasks = async (
   workingDir: string,
-  { prettier, legacyPeerDeps, verbose }: HelperActionOptions,
+  { prettier, eslint, legacyPeerDeps, verbose }: HelperActionOptions,
 ): Promise<boolean> => {
   let result = true;
+
+  if (!eslint) {
+    return result;
+  }
+
   const installer = new NpmInstaller(workingDir, {
     dev: true,
     legacyPeerDeps,

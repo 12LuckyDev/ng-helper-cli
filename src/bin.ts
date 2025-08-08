@@ -36,17 +36,9 @@ program
   .action(async (path: string | null, options: HelperActionOptions) => {
     const workingDir = getWorkingPath(path);
 
-    if (options.prettier) {
-      await prettierTasks(workingDir, options);
-    }
-
-    if (options.eslint) {
-      await eslintTasks(workingDir, options);
-    }
-
-    if (options.structure) {
-      await structureTasks(workingDir, options);
-    }
+    await prettierTasks(workingDir, options);
+    await eslintTasks(workingDir, options);
+    await structureTasks(workingDir, options);
   });
 
 program.parse(process.argv);

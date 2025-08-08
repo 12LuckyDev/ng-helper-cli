@@ -5,9 +5,13 @@ import { ProjectFileWritter } from "./task-helpers/write-project-file";
 
 export const prettierTasks = async (
   workingDir: string,
-  { legacyPeerDeps, verbose }: HelperActionOptions,
+  { prettier, legacyPeerDeps, verbose }: HelperActionOptions,
 ): Promise<boolean> => {
   let result = true;
+
+  if (!prettier) {
+    return result;
+  }
 
   const installer = new NpmInstaller(workingDir, {
     dev: true,

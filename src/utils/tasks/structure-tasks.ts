@@ -7,9 +7,19 @@ import { NpmScriptAdder } from "./task-helpers/add-npm-script";
 
 export const structureTasks = async (
   workingDir: string,
-  { verbose, legacyPeerDeps, indexify, structureDirs }: HelperActionOptions,
+  {
+    structure,
+    indexify,
+    structureDirs,
+    verbose,
+    legacyPeerDeps,
+  }: HelperActionOptions,
 ): Promise<boolean> => {
   let result = true;
+
+  if (!structure) {
+    return result;
+  }
 
   if (indexify) {
     const installer = new NpmInstaller(workingDir, {
