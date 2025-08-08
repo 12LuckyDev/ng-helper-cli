@@ -2,6 +2,13 @@
 
 ## Cli which adds dependencies and configures prettier and eslint for new angular projects. Also create basic directories and add configurated scripts for [indexify-dir-cli](https://www.npmjs.com/package/indexify-dir-cli)
 
+## Install
+
+```sh
+# using npm
+npm i -g @12luckydev/utils
+```
+
 Arguments:<br />
 path (Optional) Path angular project root (default: null)<br />
 
