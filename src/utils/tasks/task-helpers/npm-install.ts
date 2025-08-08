@@ -1,20 +1,16 @@
-import { promisify } from "util";
-import { exec } from "child_process";
-import pc from "picocolors";
+import { promisify } from 'util';
+import { exec } from 'child_process';
+import pc from 'picocolors';
 
 const execAsync = promisify(exec);
 
 export const npmInstall = async (
   workingDir: string,
   packageName: string,
-  {
-    dev,
-    legacyPeerDeps,
-    verbose,
-  }: { dev?: boolean; legacyPeerDeps?: boolean; verbose?: boolean } = {},
+  { dev, legacyPeerDeps, verbose }: { dev?: boolean; legacyPeerDeps?: boolean; verbose?: boolean } = {},
 ): Promise<boolean> => {
   try {
-    const command = `npm i${dev ? " -D" : ""}${legacyPeerDeps ? " --legacy-peer-deps" : ""} ${packageName}`;
+    const command = `npm i${dev ? ' -D' : ''}${legacyPeerDeps ? ' --legacy-peer-deps' : ''} ${packageName}`;
     if (verbose) {
       console.info(pc.cyan(`Running command: "${command}"`));
     }

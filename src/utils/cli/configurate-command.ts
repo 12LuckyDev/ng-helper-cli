@@ -1,6 +1,6 @@
-import { Command } from "commander";
+import { Command } from 'commander';
 
-import { getConfig } from "./get-config";
+import { getConfig } from './get-config';
 
 export const configurateCommand = (command: Command): void => {
   const config = getConfig();
@@ -14,7 +14,7 @@ export const configurateCommand = (command: Command): void => {
     command.name(name);
   }
   if (version) {
-    command.version(version, "-v --version", "Output the version number");
+    command.version(version, '-v --version', 'Output the version number');
   }
   if (description) {
     command.description(description);

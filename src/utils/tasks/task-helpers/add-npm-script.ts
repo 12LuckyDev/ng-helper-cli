@@ -1,6 +1,6 @@
-import { promises as fs } from "fs";
-import path from "path";
-import pc from "picocolors";
+import { promises as fs } from 'fs';
+import path from 'path';
+import pc from 'picocolors';
 
 export const addNpmScript = async (
   workingDir: string,
@@ -10,16 +10,12 @@ export const addNpmScript = async (
 ): Promise<boolean> => {
   try {
     if (verbose) {
-      console.info(
-        pc.cyan(
-          `Adding script: "${scriptName}": "${scriptBody}" to package.json`,
-        ),
-      );
+      console.info(pc.cyan(`Adding script: "${scriptName}": "${scriptBody}" to package.json`));
     }
 
-    const packageJsonPath = path.join(workingDir, "package.json");
+    const packageJsonPath = path.join(workingDir, 'package.json');
     const packageJson = await fs.readFile(packageJsonPath, {
-      encoding: "utf-8",
+      encoding: 'utf-8',
     });
 
     const packageObj = JSON.parse(packageJson);

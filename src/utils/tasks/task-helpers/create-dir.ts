@@ -1,6 +1,6 @@
-import { promises as fs } from "fs";
-import path from "path";
-import pc from "picocolors";
+import { promises as fs } from 'fs';
+import path from 'path';
+import pc from 'picocolors';
 
 export const createDir = async (
   workingDir: string,
