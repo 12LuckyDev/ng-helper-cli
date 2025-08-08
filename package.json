@@ -3,7 +3,7 @@
   "bin": {
     "ng-helper-cli": "./dist/bin.js"
   },
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "bin.js",
   "scripts": {
     "dev": "tsc -w",
