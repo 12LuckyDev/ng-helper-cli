@@ -1,14 +1,13 @@
 {
   "name": "ng-helper-cli",
   "bin": {
-    "ng-helper-cli-dev": "./dist/bin.js",
-    "tng-helper-cli": "./build/bin.js"
+    "ng-helper-cli": "./dist/bin.js"
   },
   "version": "0.0.0",
   "main": "bin.js",
   "scripts": {
     "dev": "tsc -w",
-    "build": "esbuild ./src/bin.ts --bundle --platform=node --target=node22.0 --outfile=./build/bin.js",
+    "build": "esbuild ./src/bin.ts --bundle --platform=node --target=node22.0 --outfile=./dist/bin.js",
     "lint": "eslint"
   },
   "keywords": [],
