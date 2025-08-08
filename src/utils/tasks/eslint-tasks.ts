@@ -1,21 +1,35 @@
-import { ESLINTCONFIG_CONTENT } from "./eslint-consts";
+import { HelperActionOptions } from "../../models";
 import { addNpmScript } from "./task-helpers/add-npm-script";
-import { npmInstall } from "./task-helpers/npm-install";
-import { writeProjectFile } from "./task-helpers/write-file";
+import { NpmInstaller } from "./task-helpers/npm-install";
+import { ProjectFileWritter } from "./task-helpers/write-project-file";
+import {
+  ESLINTCONFIG_CONTENT,
+  ESLINTCONFIG_WITH_PRETTIER_CONTENT,
+} from "./eslint-consts";
 
-export const eslintTasks = async (workingDir: string): Promise<boolean> => {
+export const eslintTasks = async (
+  workingDir: string,
+  { prettier, legacyPeerDeps, verbose }: HelperActionOptions,
+): Promise<boolean> => {
   let result = true;
-  result = await npmInstall(workingDir, "eslint", { dev: true });
-  result = await npmInstall(workingDir, "@eslint/js", { dev: true });
-  result = await npmInstall(workingDir, "typescript-eslint", { dev: true });
-  result = await npmInstall(workingDir, "eslint-config-prettier", {
+  const installer = new NpmInstaller(workingDir, {
     dev: true,
+    legacyPeerDeps,
+    verbose,
   });
 
-  result = await writeProjectFile(
-    workingDir,
+  result = await installer.run("eslint");
+  result = await installer.run("@eslint/js");
+  result = await installer.run("typescript-eslint");
+  if (prettier) {
+    result = await installer.run("eslint-config-prettier");
+  }
+
+  const writter = new ProjectFileWritter(workingDir, { verbose });
+
+  result = await writter.run(
     "eslint.config.mjs",
-    ESLINTCONFIG_CONTENT,
+    prettier ? ESLINTCONFIG_WITH_PRETTIER_CONTENT : ESLINTCONFIG_CONTENT,
   );
 
   result = await addNpmScript(workingDir, "lint", "eslint");
