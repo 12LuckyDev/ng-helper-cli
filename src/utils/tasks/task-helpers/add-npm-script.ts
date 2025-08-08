@@ -6,13 +6,16 @@ export const addNpmScript = async (
   workingDir: string,
   scriptName: string,
   scriptBody: string,
+  { verbose }: { verbose?: boolean } = {},
 ): Promise<boolean> => {
   try {
-    console.info(
-      pc.cyan(
-        `Adding script: "${scriptName}": "${scriptBody}" to package.json`,
-      ),
-    );
+    if (verbose) {
+      console.info(
+        pc.cyan(
+          `Adding script: "${scriptName}": "${scriptBody}" to package.json`,
+        ),
+      );
+    }
 
     const packageJsonPath = path.join(workingDir, "package.json");
     const packageJson = await fs.readFile(packageJsonPath, {

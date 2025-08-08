@@ -1,4 +1,4 @@
-export const ESLINTCONFIG_CONTENT = `// @ts-check
+export const ESLINTCONFIG_WITH_PRETTIER_CONTENT = `// @ts-check
 
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -6,6 +6,17 @@ import prettierConfig from 'eslint-config-prettier';
 import { globalIgnores } from 'eslint/config';
 
 export default tseslint.config(eslint.configs.recommended, tseslint.configs.recommended, prettierConfig, [
+  globalIgnores(['.angular/*']),
+]);
+`;
+
+export const ESLINTCONFIG_CONTENT = `// @ts-check
+
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import { globalIgnores } from 'eslint/config';
+
+export default tseslint.config(eslint.configs.recommended, tseslint.configs.recommended, [
   globalIgnores(['.angular/*']),
 ]);
 `;

@@ -6,9 +6,12 @@ export const writeProjectFile = async (
   workingDir: string,
   fileName: string,
   fileContent: string,
+  { verbose }: { verbose?: boolean } = {},
 ): Promise<boolean> => {
   try {
-    console.info(pc.cyan(`Writing "${fileName}" file.`));
+    if (verbose) {
+      console.info(pc.cyan(`Writing "${fileName}" file.`));
+    }
 
     await fs.writeFile(path.join(workingDir, fileName), fileContent);
 
@@ -19,3 +22,16 @@ export const writeProjectFile = async (
     return false;
   }
 };
+
+export class ProjectFileWritter {
+  constructor(
+    private _workingDir: string,
+    private _opt: {
+      verbose?: boolean;
+    } = {},
+  ) {}
+
+  public async run(fileName: string, fileContent: string): Promise<boolean> {
+    return writeProjectFile(this._workingDir, fileName, fileContent, this._opt);
+  }
+}
