@@ -32,10 +32,23 @@ export const addNpmScript = async (
 
     await fs.writeFile(packageJsonPath, JSON.stringify(packageObj, null, 2));
 
-    console.info(pc.greenBright(`Script added!`));
+    console.info(pc.greenBright(`Script "${scriptName}" added !!!`));
     return true;
   } catch (ex) {
     console.error(pc.red(JSON.stringify(ex)));
     return false;
   }
 };
+
+export class NpmScriptAdder {
+  constructor(
+    private _workingDir: string,
+    private _opt: {
+      verbose?: boolean;
+    } = {},
+  ) {}
+
+  public async run(scriptName: string, scriptBody: string): Promise<boolean> {
+    return addNpmScript(this._workingDir, scriptName, scriptBody, this._opt);
+  }
+}

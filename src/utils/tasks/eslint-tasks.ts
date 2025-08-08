@@ -1,5 +1,5 @@
 import { HelperActionOptions } from "../../models";
-import { addNpmScript } from "./task-helpers/add-npm-script";
+import { NpmScriptAdder } from "./task-helpers/add-npm-script";
 import { NpmInstaller } from "./task-helpers/npm-install";
 import { ProjectFileWritter } from "./task-helpers/write-project-file";
 import {
@@ -32,7 +32,8 @@ export const eslintTasks = async (
     prettier ? ESLINTCONFIG_WITH_PRETTIER_CONTENT : ESLINTCONFIG_CONTENT,
   );
 
-  result = await addNpmScript(workingDir, "lint", "eslint");
+  const adder = new NpmScriptAdder(workingDir, { verbose });
+  result = await adder.run("lint", "eslint");
 
   return result;
 };
