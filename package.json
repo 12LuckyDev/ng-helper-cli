@@ -8,17 +8,23 @@
   "main": "bin.js",
   "scripts": {
     "dev": "tsc -w",
-    "build": "esbuild ./src/bin.ts --bundle --platform=node --target=node22.0 --outfile=./build/bin.js"
+    "build": "esbuild ./src/bin.ts --bundle --platform=node --target=node22.0 --outfile=./build/bin.js",
+    "lint": "eslint"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "Helper to setup angular project to my liking",
   "devDependencies": {
+    "@eslint/js": "^9.32.0",
     "@types/node": "^22.12.0",
     "esbuild": "^0.25.0",
-    "prettier": "3.5.3",
-    "typescript": "^5.7.3"
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "indexify-dir-cli": "^1.1.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.39.0"
   },
   "dependencies": {
     "commander": "^13.1.0",

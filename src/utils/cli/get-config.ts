@@ -14,6 +14,7 @@ export const getConfig = (): Config | null => {
       ),
     );
   } catch (ex) {
+    console.error(ex)
     return null;
   }
 };
