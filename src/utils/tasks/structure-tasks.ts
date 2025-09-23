@@ -1,14 +1,17 @@
 import path from 'path';
-import { HelperActionOptions } from '../../models';
+import { HelperRunnerOptions } from '../../models';
 import { DirCreator } from '../../runners/create-dir';
 import { DEFAULT_CORE_STRUCTURE } from './structure-consts';
-import { NpmInstaller } from '../../runners/npm-install';
-import { NpmScriptAdder } from '../../runners/add-npm-script';
 
-export const structureTasks = async (
-  workingDir: string,
-  { structure, indexify, structureDirs, verbose, legacyPeerDeps }: HelperActionOptions,
-): Promise<boolean> => {
+export const structureTasks = async ({
+  structure,
+  indexify,
+  devInstaller,
+  scriptAdder,
+  workingDir,
+  verbose,
+  structureDirs,
+}: HelperRunnerOptions): Promise<boolean> => {
   let result = true;
 
   if (!structure) {
@@ -16,25 +19,17 @@ export const structureTasks = async (
   }
 
   if (indexify) {
-    const installer = new NpmInstaller(workingDir, {
-      dev: true,
-      legacyPeerDeps,
-      verbose,
-    });
-
-    result = await installer.run('indexify-dir-cli');
+    result = await devInstaller.run('indexify-dir-cli');
   }
 
   const creator = new DirCreator(path.join(workingDir, 'src/core'), {
     verbose,
   });
 
-  const adder = new NpmScriptAdder(workingDir, { verbose });
-
   for (const dir of [...DEFAULT_CORE_STRUCTURE, ...structureDirs]) {
     result = await creator.run(dir);
     if (indexify) {
-      result = await adder.run(`indexify:${dir}`, `indexify-dir-cli ts ./src/core/${dir} -s -b -n -i`);
+      result = await scriptAdder.run(`indexify:${dir}`, `indexify-dir-cli ts ./src/core/${dir} -s -b -n -i`);
     }
   }
 

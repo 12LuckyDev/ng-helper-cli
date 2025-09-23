@@ -6,7 +6,7 @@ export const npmInstall = async (
   { dev, legacyPeerDeps, verbose }: { dev?: boolean; legacyPeerDeps?: boolean; verbose?: boolean } = {},
 ): Promise<boolean> => {
   const command = `npm i${dev ? ' -D' : ''}${legacyPeerDeps ? ' --legacy-peer-deps' : ''} ${packageName}`;
-  const result = await runCommnad(workingDir, command, { verbose, successMsg: `${packageName} installed !!!` });
+  const result = await runCommnad(workingDir, command, `${packageName} installed !!!`, { verbose });
   return result;
 };
 

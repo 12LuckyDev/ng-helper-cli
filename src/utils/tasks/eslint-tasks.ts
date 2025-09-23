@@ -1,38 +1,32 @@
-import { HelperActionOptions } from '../../models';
-import { NpmScriptAdder } from '../../runners/add-npm-script';
-import { NpmInstaller } from '../../runners/npm-install';
-import { ProjectFileWritter } from '../../runners/write-project-file';
+import { HelperRunnerOptions } from '../../models';
 import { ESLINTCONFIG_CONTENT, ESLINTCONFIG_WITH_PRETTIER_CONTENT } from './eslint-consts';
 
-export const eslintTasks = async (
-  workingDir: string,
-  { prettier, eslint, legacyPeerDeps, verbose }: HelperActionOptions,
-): Promise<boolean> => {
+export const eslintTasks = async ({
+  eslint,
+  prettier,
+  devInstaller,
+  fileWritter,
+  scriptAdder,
+}: HelperRunnerOptions): Promise<boolean> => {
   let result = true;
 
   if (!eslint) {
     return result;
   }
 
-  const installer = new NpmInstaller(workingDir, {
-    dev: true,
-    legacyPeerDeps,
-    verbose,
-  });
-
-  result = await installer.run('eslint');
-  result = await installer.run('@eslint/js');
-  result = await installer.run('typescript-eslint');
+  result = await devInstaller.run('eslint');
+  result = await devInstaller.run('@eslint/js');
+  result = await devInstaller.run('typescript-eslint');
   if (prettier) {
-    result = await installer.run('eslint-config-prettier');
+    result = await devInstaller.run('eslint-config-prettier');
   }
 
-  const writter = new ProjectFileWritter(workingDir, { verbose });
+  result = await fileWritter.run(
+    'eslint.config.mjs',
+    prettier ? ESLINTCONFIG_WITH_PRETTIER_CONTENT : ESLINTCONFIG_CONTENT,
+  );
 
-  result = await writter.run('eslint.config.mjs', prettier ? ESLINTCONFIG_WITH_PRETTIER_CONTENT : ESLINTCONFIG_CONTENT);
-
-  const adder = new NpmScriptAdder(workingDir, { verbose });
-  result = await adder.run('lint', 'eslint');
+  result = await scriptAdder.run('lint', 'eslint');
 
   return result;
 };

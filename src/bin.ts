@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { configurateCommand, getWorkingPath, prettierTasks, eslintTasks, structureTasks } from './utils';
+import { configurateCommand, prettierTasks, eslintTasks, structureTasks } from './utils';
 import { HelperActionOptions } from './models';
+import { buildRunnerOptions } from './runners/build-runners-options';
 
 const program: Command = new Command();
 configurateCommand(program);
@@ -19,11 +20,10 @@ program
   .option('--legacy-peer-deps', 'All npm installation will be done with --legacy-peer-deps flag', false)
   .option('-V --verbose', 'Make cli more talkative :)', false)
   .action(async (path: string | null, options: HelperActionOptions) => {
-    const workingDir = getWorkingPath(path);
-
-    await prettierTasks(workingDir, options);
-    await eslintTasks(workingDir, options);
-    await structureTasks(workingDir, options);
+    const runnerOptions = buildRunnerOptions(path, options);
+    await prettierTasks(runnerOptions);
+    await eslintTasks(runnerOptions);
+    await structureTasks(runnerOptions);
   });
 
 program.parse(process.argv);

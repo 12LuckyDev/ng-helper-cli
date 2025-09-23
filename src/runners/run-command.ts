@@ -7,7 +7,8 @@ const execAsync = promisify(exec);
 export const runCommnad = async (
   workingDir: string,
   command: string,
-  { verbose, successMsg }: { verbose?: boolean; successMsg?: string } = {},
+  successMsg: string,
+  { verbose }: { verbose?: boolean } = {},
 ): Promise<boolean> => {
   try {
     if (verbose) {
@@ -22,9 +23,7 @@ export const runCommnad = async (
       if (verbose) {
         console.info(pc.blue(stdout));
       }
-      if (successMsg) {
-        console.info(pc.greenBright(successMsg));
-      }
+      console.info(pc.greenBright(successMsg));
       return true;
     }
 
@@ -35,3 +34,16 @@ export const runCommnad = async (
     return false;
   }
 };
+
+export class CommandRunner {
+  constructor(
+    private _workingDir: string,
+    private _opt: {
+      verbose?: boolean;
+    } = {},
+  ) {}
+
+  public async run(command: string, successMsg: string): Promise<boolean> {
+    return runCommnad(this._workingDir, command, successMsg, this._opt);
+  }
+}
