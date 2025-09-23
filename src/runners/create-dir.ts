@@ -1,24 +1,17 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import pc from 'picocolors';
+import { Logger } from './logger';
 
-export const createDir = async (
-  workingDir: string,
-  dirName: string,
-  { verbose }: { verbose?: boolean } = {},
-): Promise<boolean> => {
+export const createDir = async (workingDir: string, dirName: string, logger: Logger): Promise<boolean> => {
   try {
-    if (verbose) {
-      console.info(pc.cyan(`Create dir "${dirName}"`));
-    }
+    logger.verbose(`Create dir "${dirName}"`);
 
     const dirPath = path.join(workingDir, dirName);
     await fs.mkdir(dirPath, { recursive: true });
-
-    console.info(pc.greenBright(`Dir "${dirName}" created !!!`));
+    logger.success(`Dir "${dirName}" created !!!`);
     return true;
   } catch (ex) {
-    console.error(pc.red(JSON.stringify(ex)));
+    logger.error(ex);
     return false;
   }
 };
@@ -26,12 +19,10 @@ export const createDir = async (
 export class DirCreator {
   constructor(
     private _workingDir: string,
-    private _opt: {
-      verbose?: boolean;
-    } = {},
+    private _logger: Logger,
   ) {}
 
   public run(dirName: string): Promise<boolean> {
-    return createDir(this._workingDir, dirName, this._opt);
+    return createDir(this._workingDir, dirName, this._logger);
   }
 }

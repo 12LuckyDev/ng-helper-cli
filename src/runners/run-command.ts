@@ -1,6 +1,6 @@
 import { promisify } from 'util';
 import { exec } from 'child_process';
-import pc from 'picocolors';
+import { Logger } from './logger';
 
 const execAsync = promisify(exec);
 
@@ -8,29 +8,25 @@ export const runCommnad = async (
   workingDir: string,
   command: string,
   successMsg: string,
-  { verbose }: { verbose?: boolean } = {},
+  logger: Logger,
 ): Promise<boolean> => {
   try {
-    if (verbose) {
-      console.info(pc.cyan(`Running command: "${command}"`));
-    }
+    logger.verbose(`Running command: "${command}"`);
 
     const { stdout, stderr } = await execAsync(command, {
       cwd: workingDir,
     });
 
     if (stdout) {
-      if (verbose) {
-        console.info(pc.blue(stdout));
-      }
-      console.info(pc.greenBright(successMsg));
+      logger.output(stdout);
+      logger.success(successMsg);
       return true;
     }
 
-    console.error(pc.red(stderr));
+    logger.error(stderr);
     return false;
   } catch (ex) {
-    console.error(pc.red(JSON.stringify(ex)));
+    logger.error(ex);
     return false;
   }
 };
@@ -38,12 +34,10 @@ export const runCommnad = async (
 export class CommandRunner {
   constructor(
     private _workingDir: string,
-    private _opt: {
-      verbose?: boolean;
-    } = {},
+    private _logger: Logger,
   ) {}
 
   public async run(command: string, successMsg: string): Promise<boolean> {
-    return runCommnad(this._workingDir, command, successMsg, this._opt);
+    return runCommnad(this._workingDir, command, successMsg, this._logger);
   }
 }

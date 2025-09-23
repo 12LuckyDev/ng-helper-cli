@@ -6,10 +6,10 @@ import { DEFAULT_CORE_STRUCTURE } from './structure-consts';
 export const structureTasks = async ({
   structure,
   indexify,
+  logger,
   devInstaller,
   scriptAdder,
   workingDir,
-  verbose,
   structureDirs,
 }: HelperRunnerOptions): Promise<boolean> => {
   let result = true;
@@ -22,9 +22,7 @@ export const structureTasks = async ({
     result = await devInstaller.run('indexify-dir-cli');
   }
 
-  const creator = new DirCreator(path.join(workingDir, 'src/core'), {
-    verbose,
-  });
+  const creator = new DirCreator(path.join(workingDir, 'src/core'), logger);
 
   for (const dir of [...DEFAULT_CORE_STRUCTURE, ...structureDirs]) {
     result = await creator.run(dir);

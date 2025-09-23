@@ -24,6 +24,8 @@ program
     await prettierTasks(runnerOptions);
     await eslintTasks(runnerOptions);
     await structureTasks(runnerOptions);
+
+    runnerOptions.logger.success('\nAll done !!!');
   });
 
 program.parse(process.argv);

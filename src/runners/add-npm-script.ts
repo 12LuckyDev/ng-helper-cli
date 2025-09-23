@@ -1,17 +1,15 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import pc from 'picocolors';
+import { Logger } from './logger';
 
 export const addNpmScript = async (
   workingDir: string,
   scriptName: string,
   scriptBody: string,
-  { verbose }: { verbose?: boolean } = {},
+  logger: Logger,
 ): Promise<boolean> => {
   try {
-    if (verbose) {
-      console.info(pc.cyan(`Adding script: "${scriptName}": "${scriptBody}" to package.json`));
-    }
+    logger.verbose(`Adding script: "${scriptName}": "${scriptBody}" to package.json`);
 
     const packageJsonPath = path.join(workingDir, 'package.json');
     const packageJson = await fs.readFile(packageJsonPath, {
@@ -28,10 +26,10 @@ export const addNpmScript = async (
 
     await fs.writeFile(packageJsonPath, JSON.stringify(packageObj, null, 2));
 
-    console.info(pc.greenBright(`Script "${scriptName}" added !!!`));
+    logger.success(`Script "${scriptName}" added !!!`);
     return true;
   } catch (ex) {
-    console.error(pc.red(JSON.stringify(ex)));
+    logger.error(ex);
     return false;
   }
 };
@@ -39,12 +37,10 @@ export const addNpmScript = async (
 export class NpmScriptAdder {
   constructor(
     private _workingDir: string,
-    private _opt: {
-      verbose?: boolean;
-    } = {},
+    private _logger: Logger,
   ) {}
 
   public async run(scriptName: string, scriptBody: string): Promise<boolean> {
-    return addNpmScript(this._workingDir, scriptName, scriptBody, this._opt);
+    return addNpmScript(this._workingDir, scriptName, scriptBody, this._logger);
   }
 }
