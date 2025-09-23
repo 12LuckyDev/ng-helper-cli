@@ -4,3 +4,4 @@ export * from './cli/get-working-path';
 
 export * from './tasks/prettier-tasks';
 export * from './tasks/eslint-tasks';
+export * from './tasks/structure-tasks';

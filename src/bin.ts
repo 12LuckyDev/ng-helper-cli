@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { configurateCommand, getWorkingPath, prettierTasks, eslintTasks } from './utils';
+import { configurateCommand, getWorkingPath, prettierTasks, eslintTasks, structureTasks } from './utils';
 import { HelperActionOptions } from './models';
-import { structureTasks } from './utils/tasks/structure-tasks';
 
 const program: Command = new Command();
 configurateCommand(program);
