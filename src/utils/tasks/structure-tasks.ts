@@ -1,9 +1,9 @@
 import path from 'path';
 import { HelperActionOptions } from '../../models';
-import { DirCreator } from './task-helpers/create-dir';
+import { DirCreator } from '../../runners/create-dir';
 import { DEFAULT_CORE_STRUCTURE } from './structure-consts';
-import { NpmInstaller } from './task-helpers/npm-install';
-import { NpmScriptAdder } from './task-helpers/add-npm-script';
+import { NpmInstaller } from '../../runners/npm-install';
+import { NpmScriptAdder } from '../../runners/add-npm-script';
 
 export const structureTasks = async (
   workingDir: string,

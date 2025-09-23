@@ -1,9 +1,9 @@
 import { HelperActionOptions } from '../../models';
 import { PRETTIERIGNORE_CONTENT, PRETTIERRC_CONTENT } from './prettier-consts';
-import { NpmScriptAdder } from './task-helpers/add-npm-script';
-import { NpmInstaller } from './task-helpers/npm-install';
-import { runCommnad } from './task-helpers/run-command';
-import { ProjectFileWritter } from './task-helpers/write-project-file';
+import { NpmScriptAdder } from '../../runners/add-npm-script';
+import { NpmInstaller } from '../../runners/npm-install';
+import { runCommnad } from '../../runners/run-command';
+import { ProjectFileWritter } from '../../runners/write-project-file';
 
 export const prettierTasks = async (
   workingDir: string,

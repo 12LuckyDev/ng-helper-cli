@@ -1,7 +1,7 @@
 import { HelperActionOptions } from '../../models';
-import { NpmScriptAdder } from './task-helpers/add-npm-script';
-import { NpmInstaller } from './task-helpers/npm-install';
-import { ProjectFileWritter } from './task-helpers/write-project-file';
+import { NpmScriptAdder } from '../../runners/add-npm-script';
+import { NpmInstaller } from '../../runners/npm-install';
+import { ProjectFileWritter } from '../../runners/write-project-file';
 import { ESLINTCONFIG_CONTENT, ESLINTCONFIG_WITH_PRETTIER_CONTENT } from './eslint-consts';
 
 export const eslintTasks = async (
