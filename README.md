@@ -6,7 +6,7 @@
 
 ```sh
 # using npm
-npm i -g @12luckydev/utils
+npm i -g ng-helper-cli
 ```
 
 Arguments:<br />
