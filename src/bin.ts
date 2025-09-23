@@ -10,6 +10,8 @@ configurateCommand(program);
 program
   .argument('[path]', '(Optional) Path angular project root', null)
   .option('--np --no-prettier', 'Cli will not add pretier to the project')
+  .option('--nps --no-prettier-script', 'Cli will not add a script that run prettier on the entire project')
+  .option('--npf --no-prettier-format', 'Cli will not run prettier on the entire project')
   .option('--ne --no-eslint', 'Cli will not add eslint to the project')
   .option('--ns --no-structure', 'Cli will not add core directories structure')
   .option('--sd --structure-dirs <string...>', 'Additional directories to add in core directory', [])

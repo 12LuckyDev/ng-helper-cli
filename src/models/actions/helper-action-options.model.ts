@@ -1,5 +1,7 @@
 export interface HelperActionOptions {
   prettier: boolean;
+  prettierScript: boolean;
+  prettierFormat: boolean;
   eslint: boolean;
   structure: boolean;
   structureDirs: string[];
